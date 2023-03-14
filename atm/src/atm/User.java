@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class User {
 	private String id, password, name;
+	
+	// new 객체가 아님 -> AccountManager.list 안에 있는 인스턴스
 	private ArrayList<Account> accs;
 	
 	public User(String id, String password, String name) {
@@ -16,15 +18,15 @@ public class User {
 		
 	}
 	
-	private String getUserId() {
+	public String getUserId() {
 		return this.id;
 	}
 	
-	private String getPassword() {
+	public String getPassword() {
 		return this.password;
 	}
 	
-	private String getName() {
+	public String getName() {
 		return this.name;
 	}
 	

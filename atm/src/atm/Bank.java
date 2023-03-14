@@ -1,5 +1,7 @@
 package atm;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Bank {
@@ -7,6 +9,7 @@ public class Bank {
 	private UserManager um;
 	private AccountManager am;
 	private Scanner scan;
+	private int count;
 	
 	public Bank(String name) {
 		System.out.println(name);
@@ -14,12 +17,63 @@ public class Bank {
 	}
 	
 	public void printMenu() {
-		
+		System.out.println("1. 회원가입");
+		System.out.println("2. 회원탈퇴");
+		System.out.println("3. 계좌생성");
+		System.out.println("4. 계좌해지");
+		System.out.println("5. 로그인");
 	}
 	
 	public int input() {
-		int number = scan.nextInt();
+		System.out.print("메뉴 입력 : ");
+		int number = this.scan.nextInt();
 		return number;
+	}
+	
+	private void join() {
+		System.out.print("가입할 ID : ");
+		String id = this.scan.next();
+		
+		if(checkDupl()) {
+			System.out.println("이름 : ");
+			String name = this.scan.next();
+			System.out.print("PW : ");
+			String pw = this.scan.next();
+			
+			User user = new User(id,pw,name);
+			this.um.addUser(user);
+			this.count ++;
+			System.out.println("가입 완료!");
+		}
+		else {
+			System.err.println("이미 등록된 ID입니다.");
+		}
+	}
+	
+	private boolean checkDupl(User user) {
+		boolean result = true;
+		for(User i: this.) {
+			if(i.equals(user.getUserId())){
+				result = false;
+			}
+		}
+		return result;
+	}
+	
+	private void leave() {
+		
+	}
+	
+	private void addAcc() {
+		
+	}
+	
+	private void deleteAcc() {
+		
+	}
+	
+	private void logIn() {
+		
 	}
 	
 	// Banking 관련 메소드
