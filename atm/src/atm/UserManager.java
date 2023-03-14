@@ -23,8 +23,14 @@ public class UserManager {
 	}
 	
 	public User getUserById(String id) {
-		int index = -1; 
-		return getUser(index);
+		User user = null;
+		
+		for(User i : list) {
+			if(i.getUserId().equals(id))
+				user = i;
+		}
+		
+		return user;
 	}
 	
 	// U pdate

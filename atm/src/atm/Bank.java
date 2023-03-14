@@ -14,6 +14,8 @@ public class Bank {
 	public Bank(String name) {
 		System.out.println(name);
 		this.scan = new Scanner(System.in);
+		this.um = new UserManager();
+		this.am = new AccountManager();
 	}
 	
 	public void printMenu() {
@@ -34,7 +36,7 @@ public class Bank {
 		System.out.print("가입할 ID : ");
 		String id = this.scan.next();
 		
-		if(checkDupl()) {
+		if(!checkDupl(id)) {
 			System.out.println("이름 : ");
 			String name = this.scan.next();
 			System.out.print("PW : ");
@@ -50,18 +52,18 @@ public class Bank {
 		}
 	}
 	
-	private boolean checkDupl(User user) {
+	private boolean checkDupl(String id) {
 		boolean result = true;
-		for(User i: this.) {
-			if(i.equals(user.getUserId())){
-				result = false;
-			}
-		}
+		User user = this.um.getUserById(id);
+		
+		if(user == null) 
+			result = false;
+		
 		return result;
 	}
 	
-	private void leave() {
-		
+	private void leave(String id) {
+		this.um.deleteUserById(id);
 	}
 	
 	private void addAcc() {
