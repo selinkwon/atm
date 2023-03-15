@@ -54,4 +54,24 @@ public class User {
 		this.accs.remove(account);
 	}
 	
+	private int indexOfAccById(String id) {
+		int index = -1;
+		for(Account acc : this.accs) {
+			if(acc.getAccId().equals(id)) {
+				index = this.accs.indexOf(acc);
+			}
+		}
+		return index;
+	}
+	
+	public void setAccount(Account account) {
+		int index = indexOfAccById(account.getAccId());
+		this.accs.set(index, account);
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("\nID : %s\nPW : %s\nNAME : %s", this.getUserId(), this.getPassword(), this.getName());
+	}
+	
 }

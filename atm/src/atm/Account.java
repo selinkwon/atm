@@ -41,6 +41,7 @@ public class Account {
 	
 	@Override
 	public String toString() {
-		return String.format("\nID : %s\nNumber : %s\nCash : %d",getAccId(),getAccNumber(),getMoney());
+		return String.format("\n계좌번호 : %s\n잔액 : %d", this.getAccNumber(),this.getMoney());
 	}
+	
 }

@@ -64,6 +64,11 @@ public class UserManager {
 		list.get(index).addAccount(account);
 	}
 	
+	public void setUserAccountById(String id, Account account) {
+		int index = indexOfById(id);
+		list.get(index).setAccount(account);
+	}
+	
 	// D elete
 	public void deleteUser(int index) {
 		list.remove(index);
@@ -83,5 +88,9 @@ public class UserManager {
 	public void deleteAcc(User user, Account account) {
 		int index = indexOfById(user.getUserId());
 		list.get(index).deleteAccount(account);		
+	}
+	
+	public int userListSize() {
+		return list.size();
 	}
 }

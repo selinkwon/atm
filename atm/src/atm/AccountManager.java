@@ -66,4 +66,8 @@ public class AccountManager {
 		return num;
 	}
 	
+	public int getAccListSize() {
+		return list.size(); 
+	} 
+	
 }

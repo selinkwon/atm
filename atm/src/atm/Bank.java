@@ -159,13 +159,15 @@ public class Bank {
 				System.out.println("등록되지 않은 ID입니다.");
 			}
 			if (isLogedIn(this.log)) {
+				System.out.println("======================");
 				System.out.println(this.um.getUserById(id).getName() + "님 환영합니다.");
 				System.out.println("회원전용메뉴로 이동하시겠습니까? 1.YES 2.NO");
+				System.out.println("======================");
 				int sel = input();
 				if (sel == 1)
 					subMenuRun();
 				else if (sel == 2)
-					run();
+					this.log = -1;
 			}
 		}
 	}
@@ -187,30 +189,98 @@ public class Bank {
 		System.out.println("5. 계좌생성");
 		System.out.println("6. 계좌철회");
 		System.out.println("0. 로그아웃");
+		
+		for(int i=0;i<this.am.getAccListSize();i++) {
+			Account account = this.am.getAccount(i);
+			System.out.println(account.toString());
+		}
 	}
 	
 	private void addMoney() {
 		System.out.println("입금할 계좌를 입력해주세요.");
 		String acc = this.scan.next();
-		if(acc.equals(this.am.getAccount(this.log).getAccNumber())) {
-			System.out.println("입금할 금액을 입력해주세요.");
-			int money = this.scan.nextInt();
-			this.am.getAccountByNum(acc).setMoney(money);
-		}		
+		int check = -1;
+		for(int i=0;i<this.um.getUser(this.log).getAccountSize();i++) {
+			if(acc.equals(this.am.getAccount(i).getAccNumber())) {
+				System.out.println("입금할 금액을 입력해주세요.");
+				int money = this.scan.nextInt();
+				this.am.getAccountByNum(acc).setMoney(this.am.getAccountByNum(acc).getMoney()+money);
+				this.um.setUserAccountById(this.am.getAccountByNum(acc).getAccId(), this.am.getAccountByNum(acc));
+				check = 1;
+				System.out.println("입금이 완료되었습니다.");
+			}	
+		}
+		if(check == -1) {
+			System.out.println("없는 계좌입니다.");
+		}			
 	}
 	
 	private void outMoney() {
 		System.out.println("출금하실 계좌번호를 입력해주세요.");
 		String acc = this.scan.next();
-		
+		int check = -1;
+		for(int i=0;i<this.am.getAccListSize();i++) {
+			if(acc.equals(this.am.getAccount(i).getAccNumber())) {
+				System.out.println("출금할 금액을 입력해주세요.");
+				int money = this.scan.nextInt();
+				if(this.am.getAccountByNum(acc).getMoney()>=money) {
+					this.am.getAccountByNum(acc).setMoney(this.am.getAccountByNum(acc).getMoney()-money);
+					this.um.setUserAccountById(this.am.getAccountByNum(acc).getAccId(), this.am.getAccountByNum(acc));
+					check = 1;
+					System.out.println("출금이 완료되었습니다.");					
+				}
+				else {
+					System.out.println("잔액이 부족합니다.");
+				}
+			}	
+		}
+		if(check == -1) {
+			System.out.println("없는 계좌입니다.");
+		}				
 	}
 	
-	private void info() {
-		
+	private void info() {		
+		if(this.um.getUser(this.log).getAccountSize()>0) {
+			System.out.println(this.um.getUser(this.log).toString());
+			for (int i = 0; i < this.um.getUser(this.log).getAccountSize(); i++) {
+				System.out.println(this.am.getAccount(i).toString());
+			}			
+		}
+		else {
+			System.out.println(this.um.getUser(this.log).toString());
+			System.out.println("계좌정보가 없습니다.");
+			System.out.println("계좌를 생성해주세요.");
+		}
 	}
 	
 	private void moveMoney() {
+		System.out.println("이체할 본인의 계좌를 입력하세요.");
+		String acc = this.scan.next();
+		System.out.println("이체할 상대 계좌를 입력하세요.");
+		String yourAcc = this.scan.next();
 		
+		int check = -1;
+		int ycheck = -1;
+		for(int i=0;i<this.am.getAccListSize();i++) {
+			Account account = this.am.getAccount(i);
+			if(acc.equals(account.getAccNumber())) {
+				check = i;
+			}
+			if(yourAcc.equals(account.getAccNumber())) {
+				ycheck = i;
+			}
+		}
+		if(check != -1 && ycheck != -1) {
+			System.out.println("이체할 금액을 입력하세요.");
+			int money = this.scan.nextInt();
+			this.am.getAccountByNum(acc).setMoney(this.am.getAccountByNum(acc).getMoney()-money);
+			this.um.setUserAccountById(this.am.getAccountByNum(acc).getAccId(), this.am.getAccountByNum(acc));
+			this.am.getAccountByNum(yourAcc).setMoney(this.am.getAccountByNum(yourAcc).getMoney()+money);
+			this.um.setUserAccountById(this.am.getAccountByNum(yourAcc).getAccId(), this.am.getAccountByNum(yourAcc));
+		}
+		else {
+			System.out.println("존재하지 않는 계좌입니다.");			
+		}
 	}	
 	
 	private void logOut() {
