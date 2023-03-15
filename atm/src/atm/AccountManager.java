@@ -1,6 +1,7 @@
 package atm;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class AccountManager {
 	
@@ -9,21 +10,29 @@ public class AccountManager {
 	// Account 메 대한
 	
 	// C reate
-	public void createAccount(Account account) {
-		this.list.add(account);
+	public Account createAccount(Account account) {
+		String accountNum = accNumGenerator();
+		account.setAccountNumber(accountNum);
+		list.add(account);
+		return account;
 	}
 	
 	// R ead
 	public Account getAccount(int index) {
 		Account account = list.get(index);
-		Account reqObj = new Account();
+		
+		Account reqObj = new Account(account.getAccId(),account.getAccNumber(),account.getMoney());
 		return reqObj;
 	}
 	
-	public ArrayList getList(ArrayList list) {
-		ArrayList userlist = list;
-		ArrayList reqObj = new ArrayList<>();
-		return reqObj;
+	public Account getAccountByNum(String accountNum) {
+		Account account = null;
+		
+		for(Account object : list) {
+			if(object.getAccNumber().equals(accountNum))
+				account = object;
+		}
+		return account;
 	}
 	
 	// U pdate
@@ -34,5 +43,26 @@ public class AccountManager {
 	// D elete
 	public void deleteAccount(int index) {
 		list.remove(index);
+	}
+	
+	private String accNumGenerator() {
+		// ####-####
+		String num = "";
+		
+		Random ran = new Random();
+		
+		while(true) {
+			int first = ran.nextInt(8999)+1000;
+			int second = ran.nextInt(8999)+1000;
+			
+			num = first + "-" + second;	
+			
+			Account account = getAccountByNum(num);
+			
+			if(account == null)
+				break;
+		}
+		
+		return num;
 	}
 }

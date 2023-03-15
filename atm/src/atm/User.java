@@ -12,10 +12,14 @@ public class User {
 		this.id = id;
 		this.password = password;
 		this.name = name;
+		this.accs = new ArrayList<Account>();
 	}
 	
-	public User() {
-		
+	public User(String id, String password, String name, ArrayList<Account> accs) {
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.accs = accs;
 	}
 	
 	public String getUserId() {
@@ -30,4 +34,19 @@ public class User {
 		return this.name;
 	}
 	
+	public int getAccountSize() {
+		return this.accs.size();
+	}
+	
+	public void addAccount(Account account) {
+		this.accs.add(account);
+	}
+	
+	public Account getAccount(int index) {
+		return this.accs.get(index);
+	}
+	
+	public ArrayList<Account> getAccountList(){
+		return (ArrayList<Account>) this.accs.clone();
+	}
 }

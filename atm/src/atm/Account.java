@@ -8,14 +8,14 @@ public class Account {
 	private int money;
 	
 	
-	public Account(String id, String accountNumber, int money) {
+	public Account(String id) {
 		this.userId = id;
-		this.accountNumber = accountNumber;
-		this.money = money;
 	}
 	
-	public Account() {
-		
+	public Account(String id, String accNum, int money) {
+		this.userId = id;
+		this.accountNumber = accNum;
+		this.money = money;
 	}
 	
 	public String getAccId() {
@@ -26,7 +26,16 @@ public class Account {
 		return this.accountNumber;
 	}
 	
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+
 	public int getMoney() {
 		return this.money;
+	}
+	
+	public void setMoney(int money) {
+		this.money = money;
 	}
 }
