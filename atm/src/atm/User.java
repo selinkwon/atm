@@ -49,4 +49,9 @@ public class User {
 	public ArrayList<Account> getAccountList(){
 		return (ArrayList<Account>) this.accs.clone();
 	}
+
+	public void deleteAccount(Account account) {
+		this.accs.remove(account);
+	}
+	
 }

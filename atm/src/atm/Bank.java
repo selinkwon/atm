@@ -104,59 +104,86 @@ public class Bank {
 		String id = this.scan.next();
 		System.out.print("PW : ");
 		String password = this.scan.next();
-		if(isLogedIn()) {
-			// 복제본 반환 받음
-			User user = this.um.getUserById(id);
-			
-			if(user != null) {
-				if(user.getPassword().equals(password)) {
-					if(user.getAccountSize() < Account.LIMIT) {
-						Account account = this.am.createAccount(new Account(id));
-						this.um.setUser(user, account);						
-					}
+
+		// 복제본 반환 받음
+		User user = this.um.getUserById(id);
+
+		if (user != null) {
+			if (user.getPassword().equals(password)) {
+				if (user.getAccountSize() < Account.LIMIT) {
+					Account account = this.am.createAccount(new Account(id));
+					this.um.setUser(user, account);
+					System.out.println("계좌가 생성되었습니다.");
+				} else {
+					System.out.println("계좌는 최대 3개까지 생성가능합니다.");
 				}
-				else {
-					System.out.println("비밀번호가 일치하지 않습니다.");
-				}
+			} else {
+				System.out.println("비밀번호가 일치하지 않습니다.");
 			}
-			else {
-				System.out.println("회원정보를 확인하세요");
-			}			
-		}
-		else {
-			System.out.println("로그인 후 이용해주세요.");
+		} else {
+			System.out.println("회원정보를 확인하세요");
 		}
 	}
-	
+
 	private void deleteAccount() {
 		if (isLogedIn()) {
-			this.am.deleteAccount(this.log);
+			System.out.print("ID : ");
+			String id = this.scan.next();
+			System.out.print("PW : ");
+			String password = this.scan.next();
+			User user = this.um.getUserById(id);
+			if (user != null) {
+				if (user.getPassword().equals(password)) {
+					if (user.getAccountSize() > 0) {
+						for(int i=0;i<user.getAccountSize();i++) {
+							System.out.println(this.am.getAccount(i));							
+						}
+						System.out.println("몇번쨰 게좌를 삭제하시겠습니까?");
+						int number = this.scan.nextInt();
+						Account delAcc = user.getAccount(number);
+						this.am.deleteAccount(number);
+						this.um.deleteAcc(user, delAcc);
+						System.out.println("계좌가 삭제되었습니다.");
+					}
+					else {
+						System.out.println("삭제할 계좌가 없습니다.");
+					}
+				} else {
+					System.out.println("비밀번호가 일치하지않습니다.");
+				}
+			}
 		} else {
 			System.out.println("로그인 후 이용해주세요.");
+
 		}
 	}
 	
 	private void logIn() {
-		System.out.print("로그인할 ID : ");
-		String id = this.scan.next();		
-		if(checkDupl(id)) {
-			System.out.print("PW : ");
-			String password = this.scan.next(); 
-			
-			if(this.um.getUserById(id).getPassword().equals(password)) {
-				System.out.println("로그인 되었습니다.");
-				this.log = this.um.indexOfById(id);
+		if (!isLogedIn()) {
+			System.out.print("로그인할 ID : ");
+			String id = this.scan.next();
+			if (checkDupl(id)) {
+				System.out.print("PW : ");
+				String password = this.scan.next();
+
+				if (this.um.getUserById(id).getPassword().equals(password)) {
+					System.out.println("로그인 되었습니다.");
+					this.log = this.um.indexOfById(id);
+				} else {
+					System.out.println("회원정보가 일치하지 않습니다.");
+				}
+			} else {
+				System.out.println("등록되지 않은 ID입니다.");
 			}
-			else {
-				System.out.println("회원정보가 일치하지 않습니다.");
+			if (isLogedIn()) {
+				System.out.println(this.um.getUserById(id).getName() + "님 환영합니다.");
+				System.out.println("회원전용메뉴로 이동하시겠습니까? 1.YES 2.NO");
+				int sel = input();
+				if (sel == 1)
+					subMenuRun();
+				else if (sel == 2)
+					run();
 			}
-		}
-		else {
-			System.out.println("등록되지 않은 ID입니다.");
-		}
-		if(isLogedIn()) {
-			System.out.println(this.um.getUserById(id).getName()+"님 환영합니다.");
-			subMenuRun();
 		}
 	}
 	
