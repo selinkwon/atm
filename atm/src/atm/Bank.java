@@ -100,6 +100,10 @@ public class Bank {
 	}
 	
 	private void createAccount() {
+		System.out.print("ID : ");
+		String id = this.scan.next();
+		System.out.print("PW : ");
+		String password = this.scan.next();
 		if(isLogedIn()) {
 			// 복제본 반환 받음
 			User user = this.um.getUserById(id);
@@ -126,7 +130,7 @@ public class Bank {
 	
 	private void deleteAccount() {
 		if (isLogedIn()) {
-			
+			this.am.deleteAccount(this.log);
 		} else {
 			System.out.println("로그인 후 이용해주세요.");
 		}
@@ -150,7 +154,7 @@ public class Bank {
 		else {
 			System.out.println("등록되지 않은 ID입니다.");
 		}
-		if(this.log != -1) {
+		if(isLogedIn()) {
 			System.out.println(this.um.getUserById(id).getName()+"님 환영합니다.");
 			subMenuRun();
 		}
@@ -182,22 +186,18 @@ public class Bank {
 	}
 	
 	private void moveMoney() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	private void info() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	private void outMoney() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	private void addMoney() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -211,9 +211,9 @@ public class Bank {
 			else if(sel == 4)moveMoney();
 			else if(sel == 5)createAccount();
 			else if(sel == 6)deleteAccount();
-			else if(sel == 0)logOut();
-			
+			else if(sel == 0)logOut();			
 		}
+		System.out.println("메인메뉴로 돌아갑니다.");
 	}
 	
 
